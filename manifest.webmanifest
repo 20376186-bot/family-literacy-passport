@@ -1,0 +1,8 @@
+{
+  "name": "Family Literacy Passport",
+  "short_name": "Literacy Passport",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#fffaf0",
+  "theme_color": "#073b5c"
+}
