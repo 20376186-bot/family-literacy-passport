@@ -400,7 +400,7 @@ function toggleSupport(){
     const existing=introCard.querySelector('#introShowMe');
     if(existing){existing.remove();const btn=document.getElementById('supportBtn');if(btn)btn.textContent='👀 Show me';return;}
     const panel=document.createElement('div');panel.id='introShowMe';panel.className='access-visual-panel';panel.setAttribute('aria-label','Show Me: Three Little Pigs introduction');
-    panel.innerHTML=`<h4>👀 Show me</h4><div class="showme-grid"><div><img src="${IMG['straw.jpg']}" alt="A pig and a straw house"><strong>One pig builds with straw.</strong></div><div><img src="${IMG['sticks.jpg']}" alt="A pig and a stick house"><strong>One pig builds with sticks.</strong></div><div><img src="${IMG['bricks.jpg']}" alt="A pig and a brick house"><strong>One pig builds with bricks.</strong></div></div>`;
+    panel.innerHTML=`<img src="assets/intro-approved-show-me.webp" alt="The three little pigs built different houses. Three pigs, building tools, and straw, stick, and brick houses illustrate the sentence." style="display:block;width:100%;height:auto;border-radius:12px" loading="eager">`;
     (introCard.querySelector('.story-tools')||introCard).after(panel);
     const btn=document.getElementById('supportBtn');if(btn)btn.textContent='👀 Hide visual supports';
     return;
