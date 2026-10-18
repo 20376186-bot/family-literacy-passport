@@ -400,7 +400,7 @@ function toggleSupport(){
     const existing=introCard.querySelector('#introShowMe');
     if(existing){existing.remove();const btn=document.getElementById('supportBtn');if(btn)btn.textContent='👀 Show me';return;}
     const panel=document.createElement('div');panel.id='introShowMe';panel.className='access-visual-panel';panel.setAttribute('aria-label','Show Me: Three Little Pigs introduction');
-    panel.innerHTML=`<img src="assets/intro-approved-show-me.webp" alt="The three little pigs built different houses. Three pigs, building tools, and straw, stick, and brick houses illustrate the sentence." style="display:block;width:100%;height:auto;border-radius:12px" loading="eager">`;
+    panel.innerHTML=`<img src="assets/intro-approved-show-me.png" alt="The three little pigs built different houses. Three pigs, building tools, and straw, stick, and brick houses illustrate the sentence." style="display:block;width:100%;height:auto;border-radius:12px" loading="eager">`;
     (introCard.querySelector('.story-tools')||introCard).after(panel);
     const btn=document.getElementById('supportBtn');if(btn)btn.textContent='👀 Hide visual supports';
     return;
