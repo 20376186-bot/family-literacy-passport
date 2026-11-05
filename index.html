@@ -447,7 +447,39 @@ function previewAllStamps(){if(!PASSPORT_PREVIEW)return;localStorage.setItem(PAS
 function previewResetStamps(){if(!PASSPORT_PREVIEW)return;localStorage.removeItem(PASSPORT_PREVIEW_KEY);sessionStorage.removeItem('flp-reward-seen');sessionStorage.removeItem('flp-eight-stamp-confetti');showStamps()}
 function printPassportCertificate(){
  const frame=document.createElement('iframe');frame.title='Print Family Literacy Passport certificate';frame.style.cssText='position:fixed;width:1px;height:1px;opacity:0;pointer-events:none';document.body.appendChild(frame);
- const doc=frame.contentDocument;doc.open();doc.write('<!doctype html><html><head><title>Journey Complete Certificate</title><style>@page{size:landscape;margin:0}html,body{margin:0;width:100%;height:100%}img{display:block;width:100%;height:100%;object-fit:contain}</style></head><body><img src="'+new URL('assets/rewards/journey-complete-certificate.png',location.href).href+'" alt="Family Literacy Passport Journey Complete Certificate"></body></html>');doc.close();
+ const doc=frame.contentDocument;doc.open();doc.write('<!doctype html><html><head><title>Journey Complete Certificate</title><style>@page{size:landscape;margin:0}html,body{margin:0;width:100%;height:100%}img{display:block;width:100%;height:100%;object-fit:contain}</style></head><body><img src="'+new URL('assets/rewards/journey-complete-certificate.png',location.href).href+'" alt="Family Literacy Passport Journey Complete Certificate">
+<!-- Optional high-contrast story title: additive accessibility feature; original Stop 1 pathway logic is unchanged. -->
+<style id="flp-high-contrast-style">
+.access-tools .flp-contrast-toggle{border-color:#343434;background:#fff;color:#172f42}
+.access-tools .flp-contrast-toggle[aria-pressed="true"]{background:#161616;color:#fff;border-color:#161616}
+.flp-contrast-story-image{margin:16px 0 4px;max-width:660px}
+.flp-contrast-story-image img{display:block;width:100%;height:auto;object-fit:contain;border-radius:12px;background:#000}
+.flp-contrast-story-image figcaption{font-size:14px;color:#4d6171;margin-top:7px}
+</style>
+<script id="flp-high-contrast-handler">
+(()=>{'use strict';
+const key='flp-high-contrast-images';
+let enabled=false;
+try{enabled=localStorage.getItem(key)==='true'}catch(e){}
+const imagePath='assets/accessibility/three-little-pigs-high-contrast-title.jpg';
+function refresh(){
+ const toolbar=document.querySelector('#experiencePage .access-tools');
+ if(!toolbar)return;
+ let btn=document.getElementById('flpContrastToggle');
+ if(!btn){btn=document.createElement('button');btn.type='button';btn.id='flpContrastToggle';btn.className='tool flp-contrast-toggle';btn.addEventListener('click',()=>{enabled=!enabled;try{localStorage.setItem(key,String(enabled))}catch(e){}refresh()});toolbar.appendChild(btn)}
+ btn.textContent='◐ High-Contrast Images';btn.setAttribute('aria-pressed',String(enabled));btn.setAttribute('aria-label','High-contrast simplified story images '+(enabled?'on':'off'));
+ const intro=document.querySelector('#experiencePage .intro');
+ if(!intro)return;
+ let fig=document.getElementById('flpContrastTitle');
+ if(enabled&&!fig){fig=document.createElement('figure');fig.id='flpContrastTitle';fig.className='flp-contrast-story-image';const img=document.createElement('img');img.src=imagePath;img.alt='The Three Little Pigs title in white letters outlined in red on a plain black background';img.loading='lazy';fig.appendChild(img);const cap=document.createElement('figcaption');cap.textContent='Simplified high-contrast story title';fig.appendChild(cap);intro.appendChild(fig)}
+ if(fig)fig.hidden=!enabled;
+}
+const exp=document.getElementById('experiencePage');
+if(exp){const observer=new MutationObserver(()=>{if(!document.getElementById('flpContrastToggle')||!document.getElementById('flpContrastTitle')&&enabled)refresh()});observer.observe(exp,{childList:true,subtree:true});}
+refresh();
+})();
+</script>
+</body></html>');doc.close();
  const img=doc.querySelector('img');const doPrint=()=>{frame.contentWindow.focus();frame.contentWindow.print();setTimeout(()=>frame.remove(),60000)};
  if(img.complete)doPrint();else img.onload=doPrint;
 }
