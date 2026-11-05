@@ -661,10 +661,31 @@ window.showPerspectiveSupport=function(kind){const panel=document.getElementById
 .flp-contrast-story-image img{display:block;width:100%;height:auto;object-fit:contain;border-radius:12px;background:#000}
 .flp-contrast-story-image figcaption{font-size:14px;color:#4d6171;margin-top:7px}
 </style>
+<style id="flp-cvi-gallery-layout">
+.flp-contrast-gallery{margin:18px 0;padding:18px;background:#f5f7f8;border:2px solid #27475b;border-radius:16px;color:#173a58}
+.flp-contrast-gallery[hidden]{display:none!important}
+.flp-contrast-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:14px;margin-top:16px}
+.flp-contrast-grid figure{margin:0;padding:10px;background:#fff;border:1px solid #b6c5cc;border-radius:12px}
+.flp-contrast-grid img{display:block;width:100%;aspect-ratio:1;object-fit:contain;background:#000;border-radius:8px}
+.flp-contrast-grid figcaption{padding-top:8px;font-size:14px}
+</style>
 <script id="flp-high-contrast-handler">
 (function(){
   const key='flp-high-contrast-images';
-  const imagePath='assets/accessibility/three-little-pigs-high-contrast-title.jpg';
+  const storyImages=[
+    {src:'assets/accessibility/cvi-01-title.webp',alt:'The Three Little Pigs'},
+    {src:'assets/accessibility/cvi-02-three-pigs-builders.webp',alt:'Three pigs preparing to build'},
+    {src:'assets/accessibility/cvi-03-straw-house.webp',alt:'House made of straw'},
+    {src:'assets/accessibility/cvi-04-stick-house.webp',alt:'House made of sticks'},
+    {src:'assets/accessibility/cvi-05-brick-house.webp',alt:'House made of bricks'},
+    {src:'assets/accessibility/cvi-06-wolf.webp',alt:'The wolf'},
+    {src:'assets/accessibility/cvi-07-wolf-blowing.webp',alt:'The wolf huffing and puffing'},
+    {src:'assets/accessibility/cvi-08-frightened-pigs.webp',alt:'Three frightened pigs'},
+    {src:'assets/accessibility/cvi-09-straw-house-revisited.webp',alt:'Straw house'},
+    {src:'assets/accessibility/cvi-10-stick-house-revisited.webp',alt:'Stick house'},
+    {src:'assets/accessibility/cvi-11-pigs-in-brick-house.webp',alt:'Pigs inside the brick house'},
+    {src:'assets/accessibility/cvi-12-three-pigs-safe.webp',alt:'Three pigs together'}
+  ];
   let enabled=false;
   try { enabled=localStorage.getItem(key)==='true'; } catch(e) {}
   window.flpRefreshContrast=function(){
@@ -687,12 +708,19 @@ window.showPerspectiveSupport=function(kind){const panel=document.getElementById
     button.setAttribute('aria-pressed',String(enabled));
     let figure=intro.querySelector('#flpContrastTitle');
     if(!figure){
-      figure=document.createElement('figure');figure.id='flpContrastTitle';figure.className='flp-contrast-story-image';
-      const img=document.createElement('img');img.src=imagePath;
-      img.alt='The Three Little Pigs title in white letters outlined in red on a black background';
-      img.addEventListener('error',()=>{figure.querySelector('figcaption').textContent='High-contrast image unavailable. Check the assets/accessibility folder.';});
-      figure.appendChild(img);
-      const caption=document.createElement('figcaption');caption.textContent='Simplified high-contrast story title';figure.appendChild(caption);
+      figure=document.createElement('section');figure.id='flpContrastTitle';figure.className='flp-contrast-gallery';
+      figure.setAttribute('aria-label','Simplified high-contrast visual story');
+      const heading=document.createElement('h3');heading.textContent='The Three Little Pigs — Simplified Visual Story';figure.appendChild(heading);
+      const description=document.createElement('p');description.textContent='Explore the story pictures in order. Use the regular activities and story audio as well.';figure.appendChild(description);
+      const grid=document.createElement('div');grid.className='flp-contrast-grid';figure.appendChild(grid);
+      storyImages.forEach((item,i)=>{
+        const panel=document.createElement('figure');panel.className='flp-contrast-story-image';
+        const img=document.createElement('img');img.src=item.src;img.alt=item.alt;img.loading=i<2?'eager':'lazy';
+        img.addEventListener('error',()=>{panel.querySelector('figcaption').textContent='Image unavailable: '+item.alt;});
+        panel.appendChild(img);
+        const caption=document.createElement('figcaption');caption.textContent=(i+1)+'. '+item.alt;panel.appendChild(caption);
+        grid.appendChild(panel);
+      });
       intro.appendChild(figure);
     }
     figure.hidden=!enabled;
